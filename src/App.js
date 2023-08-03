@@ -12,17 +12,24 @@ import {
   Outlet,
   Navigate,
 } from "react-router-dom";
+import { useContext } from "react";
+import { DarkModeContext } from "./context/darkModeContext";
+import { AuthContext } from "./context/authContext";
 
 
 function App() {
 
   //actual user
-  const currentUser = true;
+  const {currentUser} = useContext(AuthContext);
+
+  //theme
+  const {darkMode} = useContext(DarkModeContext)
+  //console.log(darkMode)
 
   //Outlet
   const Layout = () => {
     return (
-      <div className="theme-dark">
+      <div className={`theme-${darkMode ? "dark" : "light"}`}>
         <Navbar />
         <div style={{ display: "flex" }}>
           <LeftBar />
