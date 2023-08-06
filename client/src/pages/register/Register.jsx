@@ -1,7 +1,39 @@
 import { Link } from "react-router-dom";
 import "./register.scss";
+import { useState } from "react";
+import axios from "axios";
 
 const Register = () => {
+
+  //state for add user
+  const [inputs, setInputs] = useState({
+    username:"",
+    email:"",
+    password:"",
+    name:"",
+  });
+
+  const [error, setError] = useState(null);
+
+  const handleChange = e => {
+    setInputs(prev => ({...prev, [e.target.name]: e.target.value }));
+  };
+  //console.log(inputs)
+
+  //register req API req
+  const handleClick = async e => {
+    e.preventDefault()
+
+    //axios
+    try {
+      await axios.post("http://localhost:8800/api/auth/register", inputs);
+    } catch (error) {
+      setError(error.response.data);
+    }
+
+  };
+  console.log(error)
+
   return (
     <div className="register">
       <div className="card">
@@ -30,11 +62,12 @@ const Register = () => {
             REGISTER
           </h1>
           <form>
-            <input type="text" placeholder="Username"></input>
-            <input type="text" placeholder="Name"></input>
-            <input type="email" placeholder="Email"></input>
-            <input type="password" placeholder="Password"></input>
-            <button>
+            <input type="text" placeholder="Username" name="username" onChange={handleChange}></input>
+            <input type="email" placeholder="Email" name="email" onChange={handleChange}></input>
+            <input type="password" placeholder="Password" name="password" onChange={handleChange}></input>
+            <input type="text" placeholder="Name" name="name" onChange={handleChange}></input>
+            {error && error}
+            <button onClick={handleClick}>
               Register
             </button>
           </form>

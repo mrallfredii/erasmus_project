@@ -1,5 +1,6 @@
 import { db } from "../connect.js";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 //login
 export const login = (req, res) => {
@@ -14,6 +15,17 @@ export const login = (req, res) => {
         const checkPassword = bcrypt.compareSync(re.body.password, data[0].password);
 
         if(!checkPassword) return res.status(400).json("wrong password or username");
+
+        //create token for unique user
+        const token = jwt.sign({id:data[0].id}, "secretkey")
+
+        //separate password from other filds of the user
+        const {password, ...others} = data[0]
+
+        //send cookie
+        res.cookie("accesToken", token, {
+            httpOnly : true,
+        }).status(200).json(others);
     });
 };
 
@@ -45,6 +57,10 @@ export const register = (req, res) => {
     });
 };
 
+//logout clearing the cookie
 export const logout = (req, res) => {
-    
+    res.clearCookie("accesToken",{
+        secure : true,
+        sameSite : "none"
+    }).status(200).json("user logout");;
 };
