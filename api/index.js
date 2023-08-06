@@ -17,5 +17,5 @@ app.use("/api/comments", commentRoutes);
 app.use("/api/likes", likeRoutes);
 
 app.listen(8800, ()=> {
-    console.log("API")
+    console.log("API works");
 });

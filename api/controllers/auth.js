@@ -1,9 +1,21 @@
 import { db } from "../connect.js";
 import bcrypt from "bcryptjs";
 
+//login
 export const login = (req, res) => {
 
-}
+    const q = "SELECT * FROM users WHERE username = ?" //req.body.username
+
+    db.query(q, [req.body.username], (err, data) => {
+        if(err) return res.status(500).json(err);
+        if(data.lenght === 0) return res.status(404).json("User not found");
+
+        //check crypted password from DB
+        const checkPassword = bcrypt.compareSync(re.body.password, data[0].password);
+
+        if(!checkPassword) return res.status(400).json("wrong password or username");
+    });
+};
 
 //register
 export const register = (req, res) => {
@@ -35,4 +47,4 @@ export const register = (req, res) => {
 
 export const logout = (req, res) => {
     
-}
+};
