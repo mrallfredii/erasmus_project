@@ -15,13 +15,13 @@ const Register = () => {
 
   const [error, setError] = useState(null);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setInputs(prev => ({...prev, [e.target.name]: e.target.value }));
   };
   //console.log(inputs)
 
   //register req API req
-  const handleClick = async e => {
+  const handleClick = async (e) => {
     e.preventDefault()
 
     //axios
