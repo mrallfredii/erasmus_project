@@ -1,44 +1,24 @@
 import Post from "../post/Post";
-import"./posts.scss"
+import "./posts.scss";
+import { useQuery } from "@tanstack/react-query";
+import { makeRequest } from "../../axios";
 
-const Posts = () => {
-
-  //users
-  const posts = [
-    {
-      id: 1,
-      name: "alfred manuel",
-      userId: 1,
-      profilePic: "https://images.pexels.com/photos/433333/pexels-photo-433333.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      desc: "alfreeeeeeeeeeed",
-      img: "https://images.pexels.com/photos/433333/pexels-photo-433333.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-    },
-    {
-      id: 2,
-      name: "anton montserrat",
-      userId: 2,
-      profilePic: "https://images.pexels.com/photos/433333/pexels-photo-433333.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      desc: "antooooooooon",
-      img: "https://images.pexels.com/photos/433333/pexels-photo-433333.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-    },
-    {
-      id: 3,
-      name: "sergi alier",
-      userId: 3,
-      profilePic: "https://images.pexels.com/photos/433333/pexels-photo-433333.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      desc: "betaaaaaaaaaa",
-      img: "https://images.pexels.com/photos/433333/pexels-photo-433333.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-    }
-  ];
+const Posts = ({userId}) => {
+  const { isLoading, error, data } = useQuery(["posts"], () =>
+    makeRequest.get("/posts?userId="+userId).then((res) => {
+      return res.data;
+    })
+  );
 
   return (
-    <div className='posts'>
-      {/* all posts */}
-      {posts.map(post=>(
-        <Post post={post} key={post.id}/>
-      ))}
+    <div className="posts">
+      {error
+        ? "Something went wrong"
+        : isLoading
+        ? "loading"
+        : data.map((post) => <Post post={post} key={post.id} />)}
     </div>
-  )
+  );
 };
 
 export default Posts;
