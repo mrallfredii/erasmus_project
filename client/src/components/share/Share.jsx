@@ -13,6 +13,18 @@ const Share = () => {
     const [file, setFile] = useState(null);
     const [desc, setDesc] = useState("");
 
+    //upload function
+    const upload = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("file", file);
+            const respone = await makeRequest.post("/upload", formData);
+            return respone.data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
   const {currentUser} = useContext(AuthContext);
 
   //client for refresh posts
@@ -30,9 +42,12 @@ const Share = () => {
     }
   )
 
-  const handleClick = e => {
+  const handleClick = async (e) => {
     e.preventDefault();
-    mutation.mutate({desc});
+    //image url
+    let imageUrl = "";
+    if(file) imageUrl = await upload();
+    mutation.mutate({desc, img:imageUrl});
   }
 
   return (
