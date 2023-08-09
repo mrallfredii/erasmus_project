@@ -4,7 +4,7 @@ import LeftBar from "./components/leftBar/LeftBar";
 import Navbar from "./components/navbar/Navbar";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
-import "./style.scss"
+import "./style.scss";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -17,12 +17,11 @@ import { AuthContext } from "./context/authContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
-
   //actual user
-  const {currentUser} = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
 
   //theme
-  const {darkMode} = useContext(DarkModeContext)
+  const { darkMode } = useContext(DarkModeContext);
   //console.log(darkMode)
 
   //query
@@ -35,8 +34,8 @@ function App() {
         <div className={`theme-${darkMode ? "dark" : "light"}`}>
           <Navbar />
           <div style={{ display: "flex" }}>
-            <LeftBar />
-            <div style={{ flex: 6 }}>
+            {/* <LeftBar /> */}
+            <div style={{ flex: 7 }}>
               <Outlet />
             </div>
           </div>
@@ -46,48 +45,48 @@ function App() {
   };
 
   //if not login, not show / nor /profile, go to /login
-  const ProtectedRoute = ({children}) => {
-    if(!currentUser){
-      return <Navigate to="/login"/>;
+  const ProtectedRoute = ({ children }) => {
+    if (!currentUser) {
+      return <Navigate to="/login" />;
     }
     return children;
-  }
+  };
 
   //Routes to paths
   const router = createBrowserRouter([
     {
       path: "/",
       element: (
-        <ProtectedRoute> 
-          <Layout/> 
+        <ProtectedRoute>
+          <Layout />
         </ProtectedRoute>
       ),
       //where to show more the outlet
       children: [
         {
-          path:"/",
-          element:<Home/>
+          path: "/",
+          element: <Home />,
         },
         {
-          path:"/profile/:id",
-          element:<Profile/>
-        }
-      ]
+          path: "/profile/:id",
+          element: <Profile />,
+        },
+      ],
     },
     {
       path: "/login",
-      element: <Login/>,
+      element: <Login />,
     },
     {
       path: "/register",
-      element: <Register/>,
+      element: <Register />,
     },
   ]);
 
   return (
-  <div>
-    <RouterProvider router={router} />
-  </div>
+    <div>
+      <RouterProvider router={router} />
+    </div>
   );
 }
 

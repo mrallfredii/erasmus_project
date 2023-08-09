@@ -18,11 +18,10 @@ import { useState } from "react";
 import Update from "../../components/update/Update";
 
 const Profile = () => {
-
   //update state
   const [openUpdate, setOpenUpdate] = useState(false);
 
-  //get the id of the user 
+  //get the id of the user
   const userId = useLocation().pathname.split("/")[2];
 
   const { currentUser } = useContext(AuthContext);
@@ -36,10 +35,12 @@ const Profile = () => {
     })
   );
 
-  const { isLoading: rIsLoading, data: relationshipData } = useQuery(["relationship"], () =>
-    makeRequest.get("/relationships?followedUserid=" + userId).then((res) => {
-      return res.data;
-    })
+  const { isLoading: rIsLoading, data: relationshipData } = useQuery(
+    ["relationship"],
+    () =>
+      makeRequest.get("/relationships?followedUserid=" + userId).then((res) => {
+        return res.data;
+      })
   );
 
   //follow - unfollow
@@ -59,7 +60,7 @@ const Profile = () => {
 
   const handleFollow = () => {
     mutation.mutate(relationshipData.includes(currentUser.id));
-  }
+  };
 
   return (
     <div className="profile">
@@ -69,7 +70,11 @@ const Profile = () => {
         <>
           <div className="images">
             <img src={"/upload/" + data.coverPic} alt="" className="cover" />
-            <img src={"/upload/" + data.profilePic} alt="" className="profilePic" />
+            <img
+              src={"/upload/" + data.profilePic}
+              alt=""
+              className="profilePic"
+            />
           </div>
           <div className="profileContainer">
             <div className="uInfo">

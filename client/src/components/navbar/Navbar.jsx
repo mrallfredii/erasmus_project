@@ -1,5 +1,4 @@
 import "./navbar.scss";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
 import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
@@ -13,43 +12,42 @@ import { DarkModeContext } from "../../context/darkModeContext";
 import { AuthContext } from "../../context/authContext";
 
 const Navbar = () => {
-
   //theme
-  const {toggle, darkMode} = useContext(DarkModeContext);
+  const { toggle, darkMode } = useContext(DarkModeContext);
   //user
-  const {currentUser} = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
 
   return (
     <div className="navbar">
       {/* left */}
       <div className="left">
-        <Link to="/" style={{textDecoration:"none"}}>
-          <span>
-            Erasmus
-          </span>
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <span>The Erasmus Project</span>
         </Link>
-        <HomeOutlinedIcon/>
         {darkMode ? (
           <WbSunnyOutlinedIcon onClick={toggle} />
-          ) : (
+        ) : (
           <DarkModeOutlinedIcon onClick={toggle} />
         )}
         <GridViewOutlinedIcon />
         <div className="search">
-          <SearchOutlinedIcon/>
-          <input type="text" placeholder="Search..."/>
+          <SearchOutlinedIcon />
+          <input type="text" placeholder="Search..." />
         </div>
       </div>
       {/* right */}
       <div className="right">
-        <PersonOutlinedIcon/>
-        <EmailOutlinedIcon/>
-        <NotificationsOutlinedIcon/>
+      <Link
+                to={`/profile/${currentUser}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+          <PersonOutlinedIcon />
+        </Link>
+        <EmailOutlinedIcon />
+        <NotificationsOutlinedIcon />
         <div className="user">
           <img src={currentUser.profilePic} alt="" />
-          <span>
-            {currentUser.name}
-          </span>
+          <span>{currentUser.name}</span>
         </div>
       </div>
     </div>

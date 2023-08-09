@@ -4,11 +4,10 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 
 const Login = () => {
-
   //state for add user
   const [inputs, setInputs] = useState({
-    username:"",
-    password:""
+    username: "",
+    password: "",
   });
 
   const [error, setError] = useState(null);
@@ -17,11 +16,11 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setInputs((prev) => ({...prev, [e.target.name]: e.target.value }));
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
   //console.log(inputs)
 
-  const {login} = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
   //login
   const handleLogin = async (e) => {
@@ -39,35 +38,35 @@ const Login = () => {
       <div className="card">
         {/* LEFT */}
         <div className="left">
-          <h1>
-            HELLO
-          </h1>
+          <h1>HELLO</h1>
           <p>
-            Welcome back! Hope you find a place to hang out.
-            Or just share where you just been!
+            Welcome back! Hope you find a place to hang out. Or just share where
+            you just been!
           </p>
-          <span>
-            New here? Register now to enroll with your new city
-          </span>
+          <span>New here? Register now to enroll with your new city</span>
           {/* Link to register */}
           <Link to="/register">
-            <button>
-              Register
-            </button>
+            <button>Register</button>
           </Link>
         </div>
         {/* RIGHT */}
         <div className="right">
-          <h1>
-            LOGIN
-          </h1>
+          <h1>LOGIN</h1>
           <form>
-            <input type="text" placeholder="Username" name="username" onChange={handleChange}></input>
-            <input type="password" placeholder="Password" name="password" onChange={handleChange}></input>
+            <input
+              type="text"
+              placeholder="Username"
+              name="username"
+              onChange={handleChange}
+            ></input>
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              onChange={handleChange}
+            ></input>
             {error && error}
-            <button onClick={handleLogin}>
-              Login
-            </button> 
+            <button onClick={handleLogin}>Login</button>
           </form>
         </div>
       </div>

@@ -5,12 +5,11 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 import moment from "moment";
 
-const Comments = ({postId}) => {
-
+const Comments = ({ postId }) => {
   const [desc, setDesc] = useState("");
 
   //actual user
-  const {currentUser} = useContext(AuthContext)
+  const { currentUser } = useContext(AuthContext);
 
   //react quey fetch users
   const { isLoading, error, data } = useQuery(["comments"], () =>
@@ -19,56 +18,57 @@ const Comments = ({postId}) => {
     })
   );
 
-    //client for refresh posts
-    const queryClient = useQueryClient();
+  //client for refresh posts
+  const queryClient = useQueryClient();
 
-    //mutation file and desc
-    const mutation = useMutation((newComment) => {
+  //mutation file and desc
+  const mutation = useMutation(
+    (newComment) => {
       return makeRequest.post("/comments", newComment);
-    }, 
+    },
     {
       onSuccess: () => {
-          // Invalidate and refetch
-          queryClient.invalidateQueries(["comments"]);
-        },
-      }
-    )
-  
-    const handleClick = async (e) => {
-      e.preventDefault();
-      mutation.mutate({desc, postId});
-      //blank the input and file posts
-      setDesc("");
-    };
+        // Invalidate and refetch
+        queryClient.invalidateQueries(["comments"]);
+      },
+    }
+  );
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    mutation.mutate({ desc, postId });
+    //blank the input and file posts
+    setDesc("");
+  };
 
   return (
     <div className="comments">
       <div className="write">
         <img src={"/upload/" + currentUser.profilePic} alt="" />
-        <input type="text" placeholder="write a comment" value={desc} onChange={e => setDesc(e.target.value)}/>
-        <button onClick={handleClick}>
-          Send
-        </button>
+        <input
+          type="text"
+          placeholder="write a comment"
+          value={desc}
+          onChange={(e) => setDesc(e.target.value)}
+        />
+        <button onClick={handleClick}>Send</button>
       </div>
-        {isLoading ? "loading" : 
-        data.map(comment=>(
+      {isLoading
+        ? "loading"
+        : data.map((comment) => (
             <div className="comment">
-                <img src={"/upload/" + comment.profilePic} alt="" />
-                <div className="info">
-                    <span>
-                        {comment.name}
-                    </span>
-                    <p>
-                        {comment.desc}
-                    </p>
-                </div>
-                <span className="date">
-                  {moment(comment.createdAt).fromNow()}
-                </span>
+              <img src={"/upload/" + comment.profilePic} alt="" />
+              <div className="info">
+                <span>{comment.name}</span>
+                <p>{comment.desc}</p>
+              </div>
+              <span className="date">
+                {moment(comment.createdAt).fromNow()}
+              </span>
             </div>
-        ))
-    }</div>
-  )
-}
+          ))}
+    </div>
+  );
+};
 
 export default Comments;

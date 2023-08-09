@@ -1,4 +1,4 @@
-import "./share.scss"
+import "./share.scss";
 import { AuthContext } from "../../context/authContext";
 import Image from "../../assets/img.png";
 import Map from "../../assets/map.png";
@@ -8,34 +8,34 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 
 const Share = () => {
+  //add post file and description
+  const [file, setFile] = useState(null);
+  const [desc, setDesc] = useState("");
 
-    //add post file and description
-    const [file, setFile] = useState(null);
-    const [desc, setDesc] = useState("");
-
-    //upload function
-    const upload = async () => {
-        try {
-            const formData = new FormData();
-            formData.append("file", file);
-            const respone = await makeRequest.post("/upload", formData);
-            return respone.data
-        } catch (error) {
-            console.log(error)
-        }
+  //upload function
+  const upload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const respone = await makeRequest.post("/upload", formData);
+      return respone.data;
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-  const {currentUser} = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
 
   //client for refresh posts
   const queryClient = useQueryClient();
 
   //mutation file and desc
-  const mutation = useMutation((newPost) => {
-    return makeRequest.post("/posts", newPost);
-  }, 
-  {
-    onSuccess: () => {
+  const mutation = useMutation(
+    (newPost) => {
+      return makeRequest.post("/posts", newPost);
+    },
+    {
+      onSuccess: () => {
         // Invalidate and refetch
         queryClient.invalidateQueries(["posts"]);
       },
@@ -46,12 +46,12 @@ const Share = () => {
     e.preventDefault();
     //image url
     let imageUrl = "";
-    if(file) imageUrl = await upload();
-    mutation.mutate({desc, img:imageUrl});
+    if (file) imageUrl = await upload();
+    mutation.mutate({ desc, img: imageUrl });
     //blank the input and file posts
     setDesc("");
     setFile(null);
-  }
+  };
 
   return (
     <div className="share">
