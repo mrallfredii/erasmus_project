@@ -40,7 +40,7 @@ const Share = () => {
         queryClient.invalidateQueries(["posts"]);
       },
     }
-  )
+  );
 
   const handleClick = async (e) => {
     e.preventDefault();

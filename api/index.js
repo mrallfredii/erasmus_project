@@ -8,6 +8,7 @@ import likeRoutes from "./routes/likes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import multer from "multer";
+import relationshipRoutes from "./routes/relationships.js";
 
 //middlewares
 app.use((req, res, next)=>{
@@ -42,6 +43,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
     const file = req.file;
     res.status(200).json(file.filename);
 });
+app.use("/api/relationships", relationshipRoutes);
 
 app.listen(8800, ()=> {
     console.log("API works");

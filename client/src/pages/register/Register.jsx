@@ -23,14 +23,12 @@ const Register = () => {
   //register req API req
   const handleClick = async (e) => {
     e.preventDefault()
-
     //axios
     try {
       await axios.post("http://localhost:8800/api/auth/register", inputs);
     } catch (error) {
       setError(error.response.data);
     }
-
   };
   console.log(error)
 
